@@ -54,7 +54,7 @@ public class WindowHandlingInteractionTestLeaf {
 
 	//Switch back to the main window
 	//driver.switch_to.window(main_window);
-	driver.switchTo().window(mainWindow);
+	//driver.switchTo().window(mainWindow);
 
 	//Click on the widget of the "To Contact"
 	WebElement to_contact_widget = driver.findElement(By.xpath("(//img[@alt='Lookup'])[2]"));
@@ -74,14 +74,14 @@ public class WindowHandlingInteractionTestLeaf {
 	second_contact.click();
 
 	//Switch back to the main window
-	driver.switchTo().window(mainWindow);
+	//driver.switchTo().window(mainWindow);
 
 	//Click on the Merge button
 	WebElement merge_button = driver.findElement(By.className("buttonDangerous"));
 	merge_button.click();
 
 	//Accept the alert
-	Alert simpleAlert = driver.switchTo().alert().accept();
+	//Alert simpleAlert = driver.switchTo().alert().accept();
 	//alert = WebDriverWait(driver, 10).until(EC.alert_is_present());
 	
 	
