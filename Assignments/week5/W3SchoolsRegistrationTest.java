@@ -10,6 +10,7 @@ import org.testng.annotations.Test;
 
 import java.io.File;
 import java.io.FileInputStream;
+import java.io.IOException;
 import java.time.Duration;
 import java.util.concurrent.TimeUnit;
 import org.apache.poi.ss.usermodel.*;
@@ -17,6 +18,11 @@ import org.apache.poi.xssf.usermodel.*;
 
 public class W3SchoolsRegistrationTest {
     WebDriver driver;
+    @DataProvider()
+	public String[][] data() throws IOException
+	{
+		return ReadExcel.readexcel();
+	}
 
     @BeforeTest
     public void setUp() {
@@ -30,50 +36,41 @@ public class W3SchoolsRegistrationTest {
     public void fillRegistrationForm(String fullName, String email, String address, String city, String state, String zip, String cvv, String creditCardNumber, String nameOnCard) {
         driver.switchTo().frame("iframeResult");
 
-        driver.findElement(By.name("fname")).sendKeys(fullName);
-        driver.findElement(By.name("email")).sendKeys(email);
-        driver.findElement(By.name("adr")).sendKeys(address);
-        driver.findElement(By.name("city")).sendKeys(city);
-        driver.findElement(By.name("state")).sendKeys(state);
-        driver.findElement(By.name("zip")).sendKeys(zip);
-        driver.findElement(By.name("expyear")).sendKeys("2018");
-        driver.findElement(By.name("cvv")).sendKeys(cvv);
-        driver.findElement(By.name("expmonth")).sendKeys("Oct");
-        driver.findElement(By.name("ccnum")).sendKeys(creditCardNumber);
-        driver.findElement(By.name("cname")).sendKeys(nameOnCard);
-    }
+      //Name on Card: [Provide a data from Excel sheet]
+      		driver.findElement(By.id("cname")).sendKeys(nameOnCard);
+      		
+      		//Credit card number: [Provide a data from Excel sheet]
+      		driver.findElement(By.id("ccnum")).sendKeys(creditCardNumber);
+      		
+      		//Exp Month: Oct
+      		driver.findElement(By.id("expmonth")).sendKeys("September");
+      		
+      		//CVV: [Provide a data from Excel sheet]
+      		driver.findElement(By.id("cvv")).sendKeys(cvv);
+      		
+      		//Exp Year: 2018
+      		driver.findElement(By.id("expyear")).sendKeys("2018");
+      		
+      		//Full Name: [Provide a data from Excel sheet]
+      		driver.findElement(By.id("fname")).sendKeys(fullName);
+      		
+      		//Email: [Provide a data from Excel sheet ]
+      		driver.findElement(By.id("email")).sendKeys(email);
+      		
+      		//Address: [Provide a data from Excel sheet]
+      		driver.findElement(By.id("adr")).sendKeys(address);
+      		
+      		//City: [Provide a data from Excel sheet]
+      		driver.findElement(By.id("city")).sendKeys(city);
+      		
+      		//Zip: [Provide a data from Excel sheet]
+      		driver.findElement(By.id("zip")).sendKeys(zip);
+      		
+      		//State: [Provide a data from Excel sheet]
+      		driver.findElement(By.id("state")).sendKeys(state); 
+      		
+    }}
+      		
 
-    @DataProvider(name = "registrationData")
-    public Object[][] getRegistrationData() {
-        // Read data from Excel file
-        String excelPath = "path/to/your/excel/file.xlsx";
-        Object[][] testData = null;
-        try {
-            FileInputStream file = new FileInputStream(new File(excelPath));
-            XSSFWorkbook workbook = new XSSFWorkbook(file);
-            XSSFSheet sheet = workbook.getSheetAt(0);
-            int rowCount = sheet.getLastRowNum();
-            int colCount = sheet.getRow(0).getLastCellNum();
-            testData = new Object[rowCount][colCount];
-            for (int i = 1; i <= rowCount; i++) {
-                XSSFRow row = sheet.getRow(i);
-                for (int j = 0; j < colCount; j++) {
-                    Cell cell = row.getCell(j);
-                    testData[i - 1][j] = cell.getStringCellValue();
-                }
-            }
-            workbook.close();
-            file.close();
-        } catch (Exception e) {
-            e.printStackTrace();
-        }
-        return testData;
-    }
 
-    @AfterTest
-    public void tearDown() {
-        if (driver != null) {
-            driver.quit();
-        }
-    }
-}
+
